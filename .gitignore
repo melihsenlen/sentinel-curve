@@ -2,6 +2,5 @@ __pycache__/
 *.pyc
 
 build/
-model.pt
-predictions.csv
-data.csv
+data/
+output/
