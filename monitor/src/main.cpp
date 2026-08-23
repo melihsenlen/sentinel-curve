@@ -5,6 +5,7 @@
 #include <chrono>
 #include <string>
 #include <cstdlib>
+#include <filesystem>
 
 int main(int argc, char* argv[]) {
     int interval_sec = 1;
@@ -13,11 +14,21 @@ int main(int argc, char* argv[]) {
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg == "--interval" && i + 1 < argc) interval_sec = std::atoi(argv[++i]);
+        if (arg      == "--interval" && i + 1 < argc) interval_sec = std::atoi(argv[++i]);
         else if (arg == "--duration" && i + 1 < argc) duration_sec = std::atoi(argv[++i]);
-        else if (arg == "--output" && i + 1 < argc) output_file = argv[++i];
+        else if (arg == "--output"   && i + 1 < argc) output_file  = argv[++i];
         else {
             std::cerr << "Unknown argument: " << arg << std::endl;
+            return 1;
+        }
+    }
+
+    std::filesystem::path output_path(output_file);
+    if (output_path.has_parent_path()) {
+        std::error_code ec;
+        std::filesystem::create_directories(output_path.parent_path(), ec);
+        if (ec) {
+            std::cerr << "Failed to create output directory: " << ec.message() << std::endl;
             return 1;
         }
     }

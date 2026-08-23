@@ -14,19 +14,19 @@ double cpuUsage() {
     FILETIME idleTime, kernelTime, userTime;
     if (!GetSystemTimes(&idleTime, &kernelTime, &userTime)) return 0.0;
 
-    ULONGLONG idleDiff = (reinterpret_cast<ULONGLONG&>(idleTime) - reinterpret_cast<ULONGLONG&>(prev_idleTime));
+    ULONGLONG idleDiff   = (reinterpret_cast<ULONGLONG&>(idleTime) - reinterpret_cast<ULONGLONG&>(prev_idleTime));
     ULONGLONG kernelDiff = (reinterpret_cast<ULONGLONG&>(kernelTime) - reinterpret_cast<ULONGLONG&>(prev_kernelTime));
-    ULONGLONG userDiff = (reinterpret_cast<ULONGLONG&>(userTime) - reinterpret_cast<ULONGLONG&>(prev_userTime));
+    ULONGLONG userDiff   = (reinterpret_cast<ULONGLONG&>(userTime) - reinterpret_cast<ULONGLONG&>(prev_userTime));
 
-    prev_idleTime = idleTime;
+    prev_idleTime   = idleTime;
     prev_kernelTime = kernelTime;
-    prev_userTime = userTime;
+    prev_userTime   = userTime;
 
     ULONGLONG total = kernelDiff + userDiff;
-    double cpu = (total - idleDiff) * 100.0 / total;
-    if (cpu < 0.0) cpu = 0.0;
-    if (cpu > 100.0) cpu = 100.0;
+    double cpu      = (total - idleDiff) * 100.0 / total;
 
+    if (cpu < 0.0) cpu   = 0.0;
+    if (cpu > 100.0) cpu = 100.0;
     return cpu;
 }
 
@@ -47,7 +47,6 @@ Sample collectSample() {
 
     s.cpu = cpuUsage();
     s.memory = memoryUsage();
-
     return s;
 }
 
