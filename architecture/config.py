@@ -1,6 +1,7 @@
 import yaml
 from pathlib import Path
 
+
 class Config:
     def __init__(self):
         config = self._load_config()

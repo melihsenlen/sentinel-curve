@@ -4,15 +4,16 @@
 #include <string>
 #include <sstream>
 
+
 namespace sentinel {
 
 double cpuUsage() {
-    static FILETIME prev_idleTime = {0,0};
-    static FILETIME prev_kernelTime = {0,0};
-    static FILETIME prev_userTime = {0,0};
+    static FILETIME prev_idleTime   = {0, 0};
+    static FILETIME prev_kernelTime = {0, 0};
+    static FILETIME prev_userTime   = {0, 0};
 
     FILETIME idleTime, kernelTime, userTime;
-    if (!GetSystemTimes(&idleTime, &kernelTime, &userTime)) return 0.0;
+    if (!GetSystemTimes(&idleTime, &kernelTime, &userTime)) return 0;
 
     ULONGLONG idleDiff   = (reinterpret_cast<ULONGLONG&>(idleTime) - reinterpret_cast<ULONGLONG&>(prev_idleTime));
     ULONGLONG kernelDiff = (reinterpret_cast<ULONGLONG&>(kernelTime) - reinterpret_cast<ULONGLONG&>(prev_kernelTime));
@@ -23,17 +24,17 @@ double cpuUsage() {
     prev_userTime   = userTime;
 
     ULONGLONG total = kernelDiff + userDiff;
-    double cpu      = (total - idleDiff) * 100.0 / total;
+    double cpu      = (total - idleDiff) * 100 / total;
 
-    if (cpu < 0.0) cpu   = 0.0;
-    if (cpu > 100.0) cpu = 100.0;
+    if (cpu < 0) cpu   = 0;
+    if (cpu > 100) cpu = 100;
     return cpu;
 }
 
 double memoryUsage() {
     MEMORYSTATUSEX memInfo;
     memInfo.dwLength = sizeof(MEMORYSTATUSEX);
-    if (!GlobalMemoryStatusEx(&memInfo)) return 0.0;
+    if (!GlobalMemoryStatusEx(&memInfo)) return 0;
 
     DWORDLONG used = memInfo.ullTotalPhys - memInfo.ullAvailPhys;
     return static_cast<double>(used) / (1024 * 1024);

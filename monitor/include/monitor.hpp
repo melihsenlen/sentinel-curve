@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <string>
 
+
 namespace sentinel {
 
 struct Sample {

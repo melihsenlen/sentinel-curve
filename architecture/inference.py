@@ -44,7 +44,7 @@ class Inferencer:
                 sequence = np.vstack([sequence[1:], step])
         return self.reader.inverse_transform(np.array(predictions))
 
-    def save(self, predictions: np.ndarray) -> None:
+    def save(self, predictions: np.ndarray):
         output_path = self.config.output["predictions_path"]
         historical  = len(predictions) - self.config.inference["future"]
 
@@ -56,5 +56,5 @@ class Inferencer:
         df.to_csv(output_path, index=False)
         print(f"Predictions saved: {output_path}")
 
-    def run(self) -> None:
+    def run(self):
         self.save(self.predict())

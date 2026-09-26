@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <filesystem>
 
+
 int main(int argc, char* argv[]) {
     int interval_sec = 1;
     int duration_sec = -1;
@@ -14,7 +15,7 @@ int main(int argc, char* argv[]) {
 
     for (int i = 1; i < argc; ++i) {
         std::string arg = argv[i];
-        if (arg      == "--interval" && i + 1 < argc) interval_sec = std::atoi(argv[++i]);
+        if      (arg == "--interval" && i + 1 < argc) interval_sec = std::atoi(argv[++i]);
         else if (arg == "--duration" && i + 1 < argc) duration_sec = std::atoi(argv[++i]);
         else if (arg == "--output"   && i + 1 < argc) output_file  = argv[++i];
         else {

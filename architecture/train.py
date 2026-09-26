@@ -26,7 +26,7 @@ class Trainer:
             shuffle=True
         )
 
-    def train(self) -> None:
+    def train(self):
         dataloader = self._build()
         optimizer  = torch.optim.Adam(self.model.parameters(), lr=self.config.training["lr"])
         criterion  = nn.MSELoss()
@@ -39,7 +39,7 @@ class Trainer:
                 print(f"Epoch {epoch + 1}/{epochs} | Loss: {loss:.6f}")
 
     def _epoch(self, dataloader, optimizer, criterion) -> float:
-        total_loss = 0.0
+        total_loss = 0
         for X_batch, y_batch in dataloader:
             X_batch, y_batch = X_batch.to(self.device), y_batch.to(self.device)
             optimizer.zero_grad()
@@ -49,12 +49,12 @@ class Trainer:
             total_loss += loss.item() * X_batch.size(0)
         return total_loss / len(dataloader.dataset)
 
-    def save_model(self) -> None:
+    def save_model(self):
         model_path = self.config.output["model_path"]
         Path(model_path).parent.mkdir(parents=True, exist_ok=True)
         torch.save(self.model.state_dict(), model_path)
         print(f"Model saved --> {model_path}")
 
-    def run(self) -> None:
+    def run(self):
         self.train()
         self.save_model()

@@ -13,4 +13,4 @@ inference:
 
 output:
   model_path: "output/model.pt"
-  predictions_path: "output/predictions.csv"
+  predictions_path: "samples/predictions.csv"
