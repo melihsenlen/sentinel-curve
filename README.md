@@ -1,8 +1,8 @@
 # Sentinel Curve
 
-A Windows resource monitoring and prediction tool, made for learning and for anticipating resource pressure before it builds.
+A Windows resource monitoring and prediction tool, made for learning and for anticipating resource pressure.
 
-It samples CPU and memory usage in real time through a small C++ monitor, learns the pattern in those readings with a PyTorch LSTM regression model, and projects where both trends are heading over the coming time steps.
+It samples CPU and memory usage in real time, learns the pattern in those readings with a [PyTorch](https://pytorch.org/) LSTM regression model, and projects where both trends are heading.
 
 ## Features
 
