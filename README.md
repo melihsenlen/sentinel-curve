@@ -1,6 +1,6 @@
 # Sentinel Curve
 
-A Windows resource monitoring and prediction tool, made for learning and for anticipating resource pressure.
+A Windows resource monitoring and prediction tool, made to anticipate resource pressure before it builds up.
 
 It samples CPU and memory usage in real time, learns the pattern in those readings with a [PyTorch](https://pytorch.org/) LSTM regression model, and projects where both trends are heading.
 
@@ -15,9 +15,8 @@ It samples CPU and memory usage in real time, learns the pattern in those readin
 ## Prerequisites
 
 - Windows
-- `g++` on your PATH (for example from MinGW-w64). The monitor is built with `g++ -std=c++17`.
 - Python 3.10+
-- Jupyter, if you want to open the notebook. It isn't in `requirements.txt`, so install it with `pip install jupyter`.
+- `g++` on your PATH. The monitor is built with `g++ -std=c++17`.
 
 ## Installation
 
