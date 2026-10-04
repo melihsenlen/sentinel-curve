@@ -4,3 +4,4 @@ numpy>=2.0.0
 matplotlib>=3.9.0
 scikit-learn>=1.5.0
 pyyaml>=6.0.1
+jupyter>=1.0

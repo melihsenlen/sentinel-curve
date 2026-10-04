@@ -9,8 +9,8 @@ It samples CPU and memory usage in real time, learns the pattern in those readin
 - Real-time CPU and memory monitoring in C++ on Windows
 - LSTM regression model trained on the collected time-series data
 - Autoregressive future rollout with configurable length and noise
-- Separate pipelines for the monitor and for training and inference
-- Jupyter notebook for visualizing fitted and forecasted trends
+- Separate pipelines for the monitor and for training & inference
+- Jupyter notebook for visualizing fitted & forecasted trends
 
 ## Prerequisites
 
@@ -24,11 +24,11 @@ It samples CPU and memory usage in real time, learns the pattern in those readin
 pip install -r requirements.txt
 ```
 
-This installs PyTorch, pandas, NumPy, Matplotlib, scikit-learn and PyYAML.
+This installs PyTorch, pandas, NumPy, Matplotlib, scikit-learn, PyYAML and Jupyter.
 
-## How the Curve Gets Drawn
+## How the Curve Takes Shape
 
-Think of it as a weather forecast for your PC: look at the last few readings, guess the next one, then keep going from your own guesses.
+It works like a weather forecast for your PC. It takes a look at the last few readings, guesses the next one, then keeps going on from its own guesses.
 
 1. **Collect.** The monitor reads system-wide CPU usage (%) and used physical memory (MB) through the Windows API, once per `--interval`, and writes each reading to a CSV with its timestamp.
    
@@ -81,7 +81,8 @@ output:
   predictions_path: "samples/predictions.csv"
 ```
 
-`noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space. If you really want to play with the model itself, its defaults (`hidden_dim=32`, `num_layers=1`) live in `architecture/model.py`.
+> [!NOTE]
+> - `noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.
 
 ## Usage
 
@@ -91,9 +92,18 @@ output:
 pipeline\monitor.bat
 ```
 
-The monitor might take some time to build the first time, depending on your system. After that it samples for 60 seconds by default and creates `data/data.csv`, containing timestamp, CPU (%) and memory (MB). See [Configuration](#configuration) to change how long and how often it samples.
+The monitor samples for 60 seconds by default and creates `data/data.csv`, containing timestamp, CPU (%) and memory (MB).
+
+> [!NOTE]
+> The monitor might take some time to build the first time, depending on your system.
+
+> [!TIP]
+> See [Configuration](#configuration) to change how long and how often the monitor samples.
 
 ### 2. Train and forecast
+
+> [!IMPORTANT]
+> The CSV needs more rows than `window_size`, and a longer collection run gives the model more to learn from.
 
 From the repository root:
 
@@ -101,14 +111,14 @@ From the repository root:
 python -m pipeline.run
 ```
 
-This trains the model and then runs the forecast, creating `output/model.pt` and `samples/predictions.csv`. The CSV needs more rows than `window_size`, and a longer collection run gives the model more to learn from.
+This trains the model and then runs the forecast, creating `output/model.pt` and `samples/predictions.csv`.
 
 ### 3. See the results
 
-Open `analysis.ipynb` to see your own machine's curves :) the fitted history and the forecast, with CPU on one axis and memory on the other.
+Open `analysis.ipynb` to see your own machine's curves :)
 
 <img src="assets/example.png" alt="Example fitted and forecasted CPU and memory trends" width="500">
 
 ## License
 
-MIT
+[MIT license](LICENSE)
