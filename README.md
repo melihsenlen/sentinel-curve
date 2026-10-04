@@ -82,7 +82,7 @@ output:
 ```
 
 > [!NOTE]
-> - `noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.
+> `noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.
 
 ## Usage
 
@@ -93,9 +93,6 @@ pipeline\monitor.bat
 ```
 
 The monitor samples for 60 seconds by default and creates `data/data.csv`, containing timestamp, CPU (%) and memory (MB).
-
-> [!NOTE]
-> The monitor might take some time to build the first time, depending on your system.
 
 > [!TIP]
 > See [Configuration](#configuration) to change how long and how often the monitor samples.
@@ -117,7 +114,7 @@ This trains the model and then runs the forecast, creating `output/model.pt` and
 
 Open `analysis.ipynb` to see your own machine's curves :)
 
-<img src="assets/example.png" alt="Example fitted and forecasted CPU and memory trends" width="500">
+<img src="assets/example.png" alt="Example fitted and forecasted CPU and memory trends" width="512">
 
 ## License
 
