@@ -26,19 +26,19 @@ pip install -r requirements.txt
 
 This installs PyTorch, pandas, NumPy, Matplotlib, scikit-learn, PyYAML and Jupyter.
 
-## How the Curve Takes Shape
+## How the Curve is Shaped
 
-It works like a weather forecast for your PC. It takes a look at the last few readings, guesses the next one, then keeps going on from its own guesses.
+It works like a weather forecast for your PC. It takes a look at the last few readings, predicts the next one, then keeps on going from its own predictions.
 
-1. **Collect.** The monitor reads system-wide CPU usage (%) and used physical memory (MB) through the Windows API, once per `--interval`, and writes each reading to a CSV with its timestamp.
+1. **Collect:** The monitor reads system-wide CPU usage (%) and used physical memory (MB) through the Windows API, once per `--interval`, and writes each reading to a CSV with its timestamp.
    
-2. **Prepare.** Each column is scaled to the 0 to 1 range. A sliding window of `window_size` consecutive readings becomes the input, and the reading right after it becomes the target. With the defaults, five readings predict the sixth.
+2. **Prepare:** Each column is scaled to the 0 to 1 range. A sliding window of `window_size` consecutive readings becomes the input, and the reading right after it becomes the target. With the defaults, five readings predict the sixth.
    
-3. **Train.** An LSTM reads each window, and a linear layer turns its last output into the next CPU and memory pair. It's trained for `epochs` with mean squared error and Adam, then saved to `output/model.pt`.
+3. **Train:** An LSTM reads each window, and a linear layer turns its last output into the next CPU and memory pair. It's trained for `epochs` with mean squared error and Adam, then saved to `output/model.pt`.
    
-4. **Fit.** The trained model predicts one step ahead across all of the collected data, always from real readings. This is the "fitted" line, which shows how closely the model follows the history.
+4. **Fit:** The trained model predicts one step ahead across all of the collected data, always from real readings. This is the "fitted" line, which shows how closely the model follows the history.
    
-5. **Forecast.** Starting from the last real window, the model predicts a step, adds a little noise, slides it into the window, and repeats `future` times. The noise keeps the forecast from following a single smooth line. Each step builds on earlier guesses, so errors compound and the far end of the forecast is the least reliable part.
+5. **Forecast:** Starting from the last real window, the model predicts a step, adds a little noise, slides it into the window, and repeats `future` times. The noise keeps the forecast from following a single smooth line. Each step builds on earlier guesses, so errors compound and the far end of the forecast is the least reliable part.
 
 ## Configuration
 
@@ -58,7 +58,7 @@ For example:
 pipeline\monitor.bat --interval 2 --duration 300
 ```
 
-### Training and forecasting
+### Training & Forecasting
 
 Parameters live in `config.yaml`:
 
@@ -81,8 +81,7 @@ output:
   predictions_path: "samples/predictions.csv"
 ```
 
-> [!NOTE]
-> `noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.
+`noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.
 
 ## Usage
 
@@ -94,13 +93,11 @@ pipeline\monitor.bat
 
 The monitor samples for 60 seconds by default and creates `data/data.csv`, containing timestamp, CPU (%) and memory (MB).
 
-> [!TIP]
-> See [Configuration](#configuration) to change how long and how often the monitor samples.
+See [Configuration](#configuration) to change how long and how often the monitor samples.
 
 ### 2. Train and forecast
 
-> [!IMPORTANT]
-> The CSV needs more rows than `window_size`, and a longer collection run gives the model more to learn from.
+The CSV needs more rows than `window_size`, and a longer collection run gives the model more to learn from.
 
 From the repository root:
 
@@ -114,7 +111,7 @@ This trains the model and then runs the forecast, creating `output/model.pt` and
 
 Open `analysis.ipynb` to see your own machine's curves :)
 
-<img src="assets/example.png" alt="Example fitted and forecasted CPU and memory trends" width="512">
+<img src="assets/example.png" width="1024">
 
 ## License
 
