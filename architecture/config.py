@@ -16,3 +16,9 @@ class Config:
             raise FileNotFoundError(f"Config file not found at {config_path}")
         with open(path) as y:
             return yaml.safe_load(y)
+
+    def predictions(self) -> Path:
+        return Path(self.output["predictions_path"])
+
+    def model(self) -> Path:
+        return Path(self.output["model_path"])

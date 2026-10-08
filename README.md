@@ -64,7 +64,7 @@ Parameters live in `config.yaml`:
 
 ```yaml
 data:
-  csv_path: "data/data.csv"
+  data_path: "data/data.csv"
   window_size: 5 # number of past time steps to use for prediction
 
 training:
@@ -73,12 +73,12 @@ training:
   lr: 0.001
 
 inference:
-  future: 50     # number of future time steps to predict
+  future: 50 # number of future time steps to predict
   noise: 0.005
 
 output:
   model_path: "output/model.pt"
-  predictions_path: "samples/predictions.csv"
+  predictions_path: "output/predictions.csv"
 ```
 
 `noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.

@@ -1,27 +1,18 @@
 import numpy as np
 import pandas as pd
 import torch
-from pathlib import Path
-
-from architecture.data import DataReader
-from architecture.model import RegressionModel
-from architecture.config import Config
 
 
 class Inferencer:
-    def __init__(self):
-        self.config = Config()
+    def __init__(self, config, reader, model):
+        self.config = config
+        self.reader = reader
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.reader = DataReader(self.config.data)
-        self.model  = self._load_model()
+        self.model  = model.to(self.device)
 
-    def _load_model(self) -> RegressionModel:
-        model_path = self.config.output["model_path"]
-        model      = RegressionModel().to(self.device)
-
-        model.load_state_dict(torch.load(model_path, map_location=self.device, weights_only=True))
+        model_path = self.config.model()
+        self.model.load_state_dict(torch.load(model_path, map_location=self.device, weights_only=True))
         print(f"Model loaded <-- {model_path}")
-        return model
 
     def predict(self) -> np.ndarray:
         X, _   = self.reader.create_sequences()
@@ -45,16 +36,16 @@ class Inferencer:
         return self.reader.inverse_transform(np.array(predictions))
 
     def save(self, predictions: np.ndarray):
-        output_path = self.config.output["predictions_path"]
-        historical  = len(predictions) - self.config.inference["future"]
-
         df = pd.DataFrame(predictions, columns=["cpu", "memory"])
         df.insert(0, "timestep", range(len(df)))
+
+        historical  = len(predictions) - self.config.inference["future"]
         df["forecast"] = df["timestep"] >= historical
 
-        Path(output_path).parent.mkdir(parents=True, exist_ok=True)
-        df.to_csv(output_path, index=False)
-        print(f"Predictions saved: {output_path}")
+        output = self.config.predictions()
+        output.parent.mkdir(parents=True, exist_ok=True)
+        df.to_csv(output, index=False)
+        print(f"Predictions saved: {output}")
 
     def run(self):
         self.save(self.predict())
