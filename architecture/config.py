@@ -4,13 +4,12 @@ from pathlib import Path
 
 class Config:
     def __init__(self):
-        config = self._load_config()
+        config = self._load()
         self.data = config["data"]
         self.training = config["training"]
         self.inference = config["inference"]
-        self.output = config["output"]
         
-    def _load_config(self, config_path: str = "config.yaml") -> dict:
+    def _load(self, config_path: str = "config.yaml") -> dict:
         path = Path(config_path)
         if not path.exists():
             raise FileNotFoundError(f"Config file not found at {config_path}")
@@ -18,7 +17,4 @@ class Config:
             return yaml.safe_load(y)
 
     def predictions(self) -> Path:
-        return Path(self.output["predictions_path"])
-
-    def model(self) -> Path:
-        return Path(self.output["model_path"])
+        return Path(self.data["predictions_path"])

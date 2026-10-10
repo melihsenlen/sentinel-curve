@@ -1,5 +1,5 @@
-#ifndef SENTINEL_CURVE_MONITOR_HPP
-#define SENTINEL_CURVE_MONITOR_HPP
+#ifndef SENTINEL_HPP
+#define SENTINEL_HPP
 
 #include <cstdint>
 #include <string>
@@ -13,8 +13,8 @@ struct Sample {
     double memory;
 };
 
-Sample collectSample();
-std::string to_csv(const Sample& sample);
+Sample sample();
+std::string csv(const Sample& sample);
 }
 
 #endif

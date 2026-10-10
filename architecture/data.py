@@ -15,7 +15,7 @@ class DataReader:
         scaled = self.scaler.fit_transform(df)
         return scaled
 
-    def create_sequences(self) -> tuple[np.ndarray, np.ndarray]:
+    def sequences(self) -> tuple[np.ndarray, np.ndarray]:
         data = self.read()
         X, y = [], []
         for i in range(len(data) - self.window_size):
@@ -25,5 +25,5 @@ class DataReader:
         y = np.array(y, dtype=np.float32)
         return X, y
 
-    def inverse_transform(self, data):
+    def inverse(self, data):
         return self.scaler.inverse_transform(data)

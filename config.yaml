@@ -1,6 +1,8 @@
 data:
-  data_path: "data/data.csv"
   window_size: 5 # number of past time steps to use for prediction
+
+  data_path: "data/data.csv"
+  predictions_path: "data/predictions.csv"
 
 training:
   batch_size: 16
@@ -10,7 +12,3 @@ training:
 inference:
   future: 50 # number of future time steps to predict
   noise: 0.005
-
-output:
-  model_path: "output/model.pt"
-  predictions_path: "output/predictions.csv"

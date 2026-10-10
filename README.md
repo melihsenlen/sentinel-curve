@@ -34,7 +34,7 @@ It works like a weather forecast for your PC. It takes a look at the last few re
    
 2. **Prepare:** Each column is scaled to the 0 to 1 range. A sliding window of `window_size` consecutive readings becomes the input, and the reading right after it becomes the target. With the defaults, five readings predict the sixth.
    
-3. **Train:** An LSTM reads each window, and a linear layer turns its last output into the next CPU and memory pair. It's trained for `epochs` with mean squared error and Adam, then saved to `output/model.pt`.
+3. **Train:** An LSTM reads each window, and a linear layer turns its last output into the next CPU and memory pair. It's trained for `epochs` with mean squared error and Adam.
    
 4. **Fit:** The trained model predicts one step ahead across all of the collected data, always from real readings. This is the "fitted" line, which shows how closely the model follows the history.
    
@@ -64,8 +64,10 @@ Parameters live in `config.yaml`:
 
 ```yaml
 data:
-  data_path: "data/data.csv"
   window_size: 5 # number of past time steps to use for prediction
+
+  data_path: "data/data.csv"
+  predictions_path: "data/predictions.csv"
 
 training:
   batch_size: 16
@@ -75,10 +77,6 @@ training:
 inference:
   future: 50 # number of future time steps to predict
   noise: 0.005
-
-output:
-  model_path: "output/model.pt"
-  predictions_path: "output/predictions.csv"
 ```
 
 `noise` is the standard deviation of the noise added at each forecast step, in the model's scaled 0 to 1 space.
@@ -105,7 +103,7 @@ From the repository root:
 python -m pipeline.run
 ```
 
-This trains the model and then runs the forecast, creating `output/model.pt` and `samples/predictions.csv`.
+This trains the model and then runs the forecast in the same run, creating `data/predictions.csv`. The model isn't saved, so every run trains a fresh one on the current data.
 
 ### 3. See the results
 
