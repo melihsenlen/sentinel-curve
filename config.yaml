@@ -5,10 +5,10 @@ data:
   predictions_path: "data/predictions.csv"
 
 training:
-  batch_size: 16
+  batch_size: 10
   epochs: 50
   lr: 0.001
 
 inference:
-  future: 50 # number of future time steps to predict
+  future: 60 # number of future time steps to predict
   noise: 0.005

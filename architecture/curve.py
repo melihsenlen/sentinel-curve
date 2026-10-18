@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 import torch
-import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 
 
@@ -22,22 +21,23 @@ class Curve:
             True # shuffle
         )
 
-        optimizer  = torch.optim.Adam(self.model.parameters(), lr=self.config.training["lr"])
-        criterion  = nn.MSELoss()
         epochs     = self.config.training["epochs"]
+        criterion  = torch.nn.MSELoss()
+        optimizer  = torch.optim.Adam(self.model.parameters(), lr=self.config.training["lr"])
 
         self.model.train()
         for epoch in range(epochs):
             total_loss = 0
             for Xb, yb in dataloader:
                 Xb, yb = Xb.to(self.device), yb.to(self.device)
-                optimizer.zero_grad()
+
                 loss = criterion(self.model(Xb), yb)
                 loss.backward()
                 optimizer.step()
+                optimizer.zero_grad()
                 total_loss += loss.item() * Xb.size(0)
-            if (epoch + 1) % 10 == 0:
-                print(f"Epoch {epoch + 1}/{epochs} | Loss: {total_loss / len(dataloader.dataset):.6f}")
+
+            print(f"Epoch {epoch + 1:>2}/{epochs} | Loss: {total_loss / len(dataloader.dataset):8.6f}")
 
     def predict(self) -> np.ndarray:
         future = self.config.inference["future"]

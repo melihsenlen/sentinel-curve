@@ -58,7 +58,7 @@ For example:
 pipeline\monitor.bat --interval 2 --duration 300
 ```
 
-### Training & Forecasting
+### Training and forecast
 
 Parameters live in `config.yaml`:
 
@@ -70,12 +70,12 @@ data:
   predictions_path: "data/predictions.csv"
 
 training:
-  batch_size: 16
+  batch_size: 10
   epochs: 50
   lr: 0.001
 
 inference:
-  future: 50 # number of future time steps to predict
+  future: 60 # number of future time steps to predict
   noise: 0.005
 ```
 
@@ -109,7 +109,7 @@ This trains the model and then runs the forecast in the same run, creating `data
 
 Open `analysis.ipynb` to see your own machine's curves :)
 
-<img src="assets/example.png" width="1024">
+<img src="samples/example.png" width="1024">
 
 ## License
 
